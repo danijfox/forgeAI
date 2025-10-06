@@ -1,0 +1,13 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Allow read access to any document for any authenticated user.
+    // Deny all writes by default from the client-side for security.
+    match /{document=**} {
+      allow read: if request.auth != null;
+      allow write: if false; 
+    }
+  }
+}
