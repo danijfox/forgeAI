@@ -10,16 +10,18 @@ env:
   - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
     value: "studio-774665260-80d2e"
   - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
-    value: "studio-774665260-80d2e.firebasestorage.app"
+    value: "studio-774665260-80d2e.firebasestorage.app" 
   - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
-    value: "657140986169"
+    value: "657140986169" 
   - variable: NEXT_PUBLIC_FIREBASE_APP_ID
     value: "1:657140986169:web:bff8882c9d62f060eb38e8"
 
   # Server-side (secret) variables
   # This is needed for the Firebase Admin SDK
   - variable: FIREBASE_SERVICE_ACCOUNT_KEY
-    secret: FIREBASE_SERVICE_ACCOUNT_KEY
+    # Temporarily disable the secret to allow the service account to be created.
+    # secret: FIREBASE_SERVICE_ACCOUNT_KEY
+    value: "TEMPORARILY_DISABLED"
 
 # The command to build your app
 build:
@@ -34,4 +36,6 @@ staticAssets:
   - path: '.next/static'
 
 runConfig:
+  # Increase this value if you'd like to automatically spin up
+  # more instances in response to increased traffic.
   maxInstances: 1
