@@ -4,9 +4,9 @@
 env:
   # Client-side (public) variables
   - variable: NEXT_PUBLIC_FIREBASE_API_KEY
-    value: "AIzaSyC2dFk2X..."
+    value: "AIzaSyB6RymaYwxixfGIXvLarNzDeF5NI7XncYc"
   - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
-    value: "studio-774665260-80d2e.firebaseapp.com"
+    value: "forgeai--studio-774665260-80d2e.europe-west4.hosted.app"
   - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
     value: "studio-774665260-80d2e"
   - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
