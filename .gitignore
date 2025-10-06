@@ -1,0 +1,16 @@
+
+# Dependencies
+node_modules
+
+# Next.js build output
+.next
+out
+
+# Firebase emulator data
+.firebase
+
+# Environment variables
+.env.local
+
+# Other
+build
