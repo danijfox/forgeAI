@@ -1,6 +1,58 @@
 # Settings to manage and configure a Firebase App Hosting backend.
 # https://firebase.google.com/docs/app-hosting/configure
 
+env:
+  # Client-side (public) variables
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: "AIzaSyC2dFk2X..."
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: "studio-774665260-80d2e.firebaseapp.com"
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: "studio-774665260-80d2e"
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: "studio-774665260-80d2e.firebasestorage.app" 
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "657140986169" 
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: "1:657140986169:web:bff8882c9d62f060eb38e8"
+
+  # Server-side (secret) variables
+  # These are needed for the Firebase Admin SDK
+  - variable: FIREBASE_PRIVATE_KEY
+    value: |
+      -----BEGIN PRIVATE KEY-----
+      MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC0dAbWXrUYCy52
+      cN3nEQBtzmA+l9DEStGvTgNQ96I+7zJdCTc+lS6nuvOowZ0coWBtaxMo3OCaZbaj
+      U0fBWlKQug8q5c+QFzoGvgl84e5VqKRgSmQIzXgJ92yOS8a7Tm1f8zhbw9gL1BbV
+      SrBERoBGKrum8Cl5bhzlWjyUdKdKwhr5C8LbHCit27IA56hnBi2l2xSYfnTXh7dW
+      o836+2fy+mEB0wtrsMvf0cTKJm+mMdO7kJDqUQ9oJMyh6BZsqKPoKtAFleMu5yiW
+      1cNcQ1huU+/sLAqDQQQyRDXptMFnAG/l5FM8hiRLnCqtboAyiM3tov6mGW3G7p6P
+      2bKBGu0JAgMBAAECggEAD/7o9upWQIIH5aqDlmPvbHcKw6xOw9ejVq13pcm4XBPK
+      nGygtQTMVJnsggeyQZjHJMEvuu45X/ZRhjtvn41oxuN3TLoqTVTXE+9B2ra8Rbjj
+      4+qJi4OLIcxeQbl92ESkyrM99QRwi5E1T5rbR8doFNAyP3iydHfKSppWcbfAIeQv
+      EESTYwIvHgVP6KKs9D+qwlZBHXqa9SI1IkpF7WlKerbPFKtMepVc5l5RrXFP0thn
+      /4cz3qNCzEhDFzcgQxleSEGVxcRG8cPgxKtU4yiHq/rv/6v9bUVa32GVWywTREEM
+      5kOdfT/FrzmygDRmOvNpRIjfKnxco/L79KMHW9N4cQKBgQD3qedSjow1lmFVrGUr
+      I2FKUj2YVzzqonG7COUy+lT0XSI/Axd8J4pCoMlyL0h2jCfTUAnSLzk8TN9SZg7I
+      Utx++3KH5mqCc24bX7Ulr8CjEn9vibOZV5nV7OM06YW+3oagct5gWESjwF4mlXCg
+      sjmbknEdCAmRBLW8WQMv5pXVewKBgQC6hvn5KQEjNDDUoqirYFkx+KzJPK90AlP9
+      ohXoR9aT15ggjJUVJaI9hYPxfeLaTn+BgokBGlDuVKigY7SL/YXPqChMf453ys0j
+      Kn2O4Akxmu/D5dl1Z3YsAX7g0++fR5hfFEktMsHQQuHPe2WHZVOnDE8JmY79eNo7
+      XSIDCTWGSwKBgQCidHu9hq3oFM2iMiRmqJ2P7+Rhgo/95TKvGkWmK9kANftZ1ABa
+      u2ERFYEuel+RC5ywGydmDP4BVPeEiFeYBeqHDQ9yn60sBuWp5RzhLKkzDtYy5uO9
+      aV4KmonrUmcd7b/njZHbJutXcr8PliU788ygBO5Xucb0rl87vjO9/wY38wKBgQCV
+      A+JOiNCs1DQym+ROTYHUp0s61a2B6544IbaIxGOL5xBU6JrtswwjRDg9xIloSJAa
+      4jMb229Oh/nTcPQ7ZoXxePEA9GLYFv+9mWOHsjoGFDZ6dXU+EzLYQzWe3hIwWJ1F
+      UEqJvmQSQmxuOrHI8k1bRj0aeUBABb2q8WOLs168cwKBgQC33gfR7mgCKmxKB0iP
+      vYfKzvESKsvMBzrsSv/efFMJNim5t9cBeGfYHSJgt4Ult9yASw9nbNDln1ngZmQl
+      hORNaQWwTMtOaxk63gjgCZx5Hfjxx02idDwCUtSDU6b0x/jsDFy+NgKToLHTK2QD
+      nYhtyE32ASL3PenZ6Cz/QUgB7g==
+      -----END PRIVATE KEY-----
+  - variable: FIREBASE_CLIENT_EMAIL
+    value: "firebase-adminsdk-fbsvc@studio-774665260-80d2e.iam.gserviceaccount.com"
+  - variable: FIREBASE_PROJECT_ID
+    value: "studio-774665260-80d2e"
+
 # The command to build your app
 build:
   command: 'npm run build'
