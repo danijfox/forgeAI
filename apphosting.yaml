@@ -6,7 +6,7 @@ env:
   - variable: NEXT_PUBLIC_FIREBASE_API_KEY
     value: "AIzaSyB6RymaYwxixfGIXvLarNzDeF5NI7XncYc"
   - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
-    value: "studio-774665260-80d2e.web.app"
+    value: "studio-774665260-80d2e.firebaseapp.com"
   - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
     value: "studio-774665260-80d2e"
   - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
