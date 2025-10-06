@@ -1,7 +1,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import { adminDb } from '@/lib/firebase-admin';
-import { adminAuth } from '@/lib/firebase-admin';
+import { getFirebaseAdmin } from '@/lib/firebase-admin';
 
 export async function POST(req: NextRequest) {
   const { name, description } = await req.json();
@@ -18,6 +17,7 @@ export async function POST(req: NextRequest) {
   const token = authorization.split('Bearer ')[1];
   let decodedToken;
   try {
+    const { auth: adminAuth } = getFirebaseAdmin();
     decodedToken = await adminAuth.verifyIdToken(token);
   } catch (error) {
     return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
   };
 
   try {
+    const { db: adminDb } = getFirebaseAdmin();
     const docRef = await adminDb.collection('collections').add(newCollection);
     return NextResponse.json({ id: docRef.id, ...newCollection }, { status: 201 });
   } catch (error) {
