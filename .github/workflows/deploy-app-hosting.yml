@@ -19,8 +19,8 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v2.1.3'
         with:
-          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
-          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
+          workload_identity_provider: 'projects/657140986169/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+          service_account: 'github-actions-deployer@studio-774665260-80d2e.iam.gserviceaccount.com'
 
       - name: 'Install Firebase CLI'
         run: npm install -g firebase-tools
