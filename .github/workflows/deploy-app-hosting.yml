@@ -19,11 +19,13 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v2.1.3'
         with:
-          workload_identity_provider: 'projects/657140986169/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
-          service_account: 'github-actions-deployer@studio-774665260-80d2e.iam.gserviceaccount.com'
+          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
+          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
 
-      - name: 'Install Firebase CLI'
-        run: npm install -g firebase-tools
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+          install_components: 'google-cloud-cli-app-hosting'
 
       - name: 'Deploy to Firebase App Hosting'
-        run: firebase apphosting:rollouts:create forgeai --git-branch ${{ github.ref_name }} --project studio-774665260-80d2e
+        run: gcloud app-hosting rollouts create forgeai --branch=${{ github.ref_name }} --project=studio-774665260-80d2e
