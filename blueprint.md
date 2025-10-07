@@ -8,21 +8,15 @@ El sistema de Integración Continua y Despliegue Continuo (CI/CD) está construi
 
 El fichero `.github/workflows/deploy-app-hosting.yml` define el pipeline de despliegue que se activa con cada `push` a la rama `main`.
 
-**Lección Aprendida Crucial: La Herramienta Correcta para el Trabajo**
+**Lección Aprendida Crucial: La Herramienta y la Sintaxis Correctas**
 
-El proceso de configuración del despliegue ha sido una lección fundamental sobre la importancia de usar la herramienta CLI correcta, más allá de lo que la documentación inicial pueda sugerir.
+El proceso de configuración del despliegue ha sido una lección fundamental sobre la importancia de usar la herramienta CLI correcta y, de forma crítica, su sintaxis precisa.
 
-1.  **La Pista Falsa: `gcloud`:** Nuestra suposición inicial, basada en cierta documentación, fue que el despliegue se realizaría con la CLI de `gcloud`. Esto nos llevó a un largo y tortuoso camino de depuración:
-    *   Intentamos usar `gcloud beta app hosting backends deploy`.
-    *   Luchamos con errores de componentes (`component unknown`), que resolvimos instalando el componente `beta`.
-    *   Finalmente nos topamos con un muro: `ERROR: (gcloud.beta.app) Invalid choice: 'hosting'`. La propia CLI nos confirmó que ese comando no existía en su estructura.
-    *   Las investigaciones posteriores demostraron que `gcloud beta app` es para **App Engine**, y `gcloud beta firebase` es solo para **Test Lab**. Ninguno de los dos sirve para **Firebase App Hosting**.
+1.  **Error Inicial con `gcloud`:** El primer intento usó `gcloud run deploy`, que es la herramienta para Cloud Run, no para App Hosting. Esto falló porque son servicios distintos con herramientas distintas.
+2.  **Error Conceptual con Comandos de App Hosting:** Guiados por la documentación más reciente, intentamos usar comandos como `apphosting:backends:deploy`. Sin embargo, los logs de ejecución revelaron que este comando **no existe** en la versión estándar de `firebase-tools`, lo que indica que puede ser para versiones beta o futuras.
+3.  **La Implementación Final y Exitosa:** El workflow correcto utiliza el comando documentado y diseñado específicamente para despliegues desde un repositorio Git:
+    *   **Autenticación con `google-github-actions/auth`:** Se usa la acción oficial de Google para autenticarse de forma segura mediante Workload Identity Federation.
+    *   **Instalación de `firebase-tools`:** Se instala la CLI de Firebase con `npm install -g firebase-tools`.
+    *   **Despliegue con `apphosting:rollouts:create`:** El paso final ejecuta el comando de despliegue correcto: `firebase apphosting:rollouts:create <backend-id> --git-branch <branch-name>`. Esta CLI detecta automáticamente las credenciales y despliega el último commit de la rama especificada.
 
-2.  **La Solución Correcta: `firebase-tools`:** La herramienta canónica y correcta para interactuar con los servicios de Firebase, incluido App Hosting, es la CLI **`firebase-tools`**, distribuida a través de `npm`.
-
-3.  **La Implementación Final:** El workflow exitoso combina lo mejor de ambos mundos:
-    *   **Autenticación con `google-github-actions/auth`:** Seguimos usando la acción oficial de Google para autenticarnos a través de Workload Identity Federation. Esto expone de forma segura las credenciales al entorno de ejecución.
-    *   **Instalación de `firebase-tools`:** El siguiente paso instala la CLI de Firebase con `npm install -g firebase-tools`.
-    *   **Despliegue con `firebase`:** El paso final ejecuta el comando de despliegue correcto: `firebase apphosting:backends:deploy`. Esta CLI detecta automáticamente las credenciales proporcionadas por el paso de autenticación y las utiliza para completar la operación.
-
-Esta arquitectura es robusta, segura y utiliza las herramientas estándar para cada parte del proceso, evitando los callejones sin salida de los comandos `gcloud` no relacionados.
+La lección más importante ha sido prestar atención a los detalles más pequeños de la CLI, como la diferencia entre `--git-branch` y `--git_branch`, y el uso de espacios en lugar de signos de igual para los argumentos.
