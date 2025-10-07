@@ -25,8 +25,7 @@ jobs:
       - name: 'Install gcloud CLI and App Hosting component'
         uses: 'google-github-actions/setup-gcloud@v2'
         with:
-          install_components:
-            - google-cloud-cli-app-hosting
+          install_components: 'google-cloud-cli-app-hosting'
 
       - name: 'Deploy to App Hosting with gcloud'
         run: gcloud beta app hosting backends deploy forgeai-backend --location=europe-west4
