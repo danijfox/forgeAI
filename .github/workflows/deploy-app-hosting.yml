@@ -22,10 +22,9 @@ jobs:
           workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
           service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
 
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v2'
-        with:
-          install_components: 'google-cloud-cli-app-hosting'
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
 
-      - name: 'Deploy to Firebase App Hosting'
-        run: gcloud app-hosting rollouts create forgeai --branch=${{ github.ref_name }} --project=studio-774665260-80d2e
+      - name: Deploy to App Hosting
+        run: firebase apphosting:rollouts:create forgeai --git-branch main --project studio-774665260-80d2e
+yo

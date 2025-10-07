@@ -51,7 +51,7 @@ export default function DashboardPage() {
           Welcome back, {user?.displayName?.split(" ")[0] || "User"}!
         </h1>
         <p className="text-muted-foreground">
-          Here&apos;s a quick overview of your workspace.
+          Here&apos;s a quick overview of your workspaces.
         </p>
       </div>
 
