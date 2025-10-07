@@ -1,8 +1,7 @@
 {
   "functions": {
     "source": "functions",
-    "location": "us-east1",
-    "storageBucket": "studio-774665260-80d2e.firebasestorage.app"
+    "location": "us-east1"
   },
   "storage": {
     "rules": "storage.rules"
