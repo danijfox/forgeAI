@@ -1,16 +1,24 @@
 import { onObjectFinalized } from "firebase-functions/v2/storage";
+import { getStorage } from "firebase-admin/storage";
+import { initializeApp } from "firebase-admin/app";
 import { logger } from "firebase-functions";
+
+initializeApp();
 
 export const onDocumentUploaded = onObjectFinalized({
     bucket: "studio-774665260-80d2e.appspot.com",
-}, (event) => {
+}, async (event) => {
+    const fileBucket = event.data.bucket;
     const filePath = event.data.name;
+    const bucket = getStorage().bucket(fileBucket);
+    const file = bucket.file(filePath);
 
-    logger.info(`A new file has been uploaded. Event data: ${JSON.stringify(event)}`);
-    logger.info(`Processing file: ${filePath}`);
-
-    // Here you can add your logic to process the file.
-    // For example, read the file, process its content, etc.
+    try {
+        const [content] = await file.download();
+        logger.info(`File content: ${content.toString()}`)
+    } catch (error) {
+        logger.error(`Error downloading file: ${error}`);
+    }
 
     return null;
 });
