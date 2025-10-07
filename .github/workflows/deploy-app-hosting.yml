@@ -26,4 +26,4 @@ jobs:
         uses: 'google-github-actions/setup-gcloud@v2'
 
       - name: 'Deploy to App Hosting with gcloud'
-        run: gcloud app hosting backends deploy forgeai-backend --location=europe-west4
+        run: gcloud beta app hosting backends deploy forgeai-backend --location=europe-west4
