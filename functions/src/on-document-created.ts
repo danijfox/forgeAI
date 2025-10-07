@@ -29,7 +29,10 @@ function chunkText(text: string, chunkSize = 1500, overlap = 200): string[] {
 }
 
 export const onDocumentCreated = onDocumentCreated(
-  "collections/{collectionId}/documents/{documentId}",
+  {
+    document: "collections/{collectionId}/documents/{documentId}",
+    timeoutSeconds: 540,
+  },
   async (event) => {
     const snapshot = event.data;
     if (!snapshot) {

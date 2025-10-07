@@ -2,7 +2,7 @@
   "functions": {
     "source": "functions",
     "location": "us-east1",
-    "storageBucket": "studio-774665260-80d2e.appspot.com"
+    "storageBucket": "studio-774665260-80d2e.firebasestorage.app"
   },
   "storage": {
     "rules": "storage.rules"
