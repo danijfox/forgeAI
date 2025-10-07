@@ -1,13 +1,13 @@
-run:
-  build:
-    - npm i
-    - npm run build
-  start: npm start
+backend:
+  region: europe-west4
+  run:
+    build:
+      - npm install
+      - npm run build
+    start: npm start
 env:
   - variable: FIREBASE_APP_HOSTING_URL
     value: https://forgeai--studio-774665260-80d2e.europe-west4.hosted.app
     availability:
       - BUILD
       - RUNTIME
-backend:
-  region: europe-west4
