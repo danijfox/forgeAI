@@ -1,3 +1,4 @@
+
 # **App Name**: DataForge AI
 
 ## Core Features:
@@ -33,3 +34,14 @@
 - A clean, card-based layout, to display document collections and dataset information clearly. Utilize white space effectively to avoid clutter.
 - Subtle transitions and animations for actions such as uploading documents or generating datasets. The purpose is to provide feedback and enhance user experience.
 - Utilize a component library for the front end. Styles should be tokenized for easier customization.
+
+## CI/CD & Deployment:
+
+- **Continuous Integration/Deployment**: The project uses GitHub Actions to automate testing and deployment. The primary workflow deploys the backend to Google App Hosting on every push to the `main` branch.
+- **`gcloud` CLI Components**: A key lesson from setting up the deployment is that the base `gcloud` installation provided by `google-github-actions/setup-gcloud` is minimal. Additional functionality must be explicitly enabled by installing components.
+    - **Configuration**: The `install_components` parameter in the `setup-gcloud` action must be a comma-separated string of component IDs.
+    - **Current Component**:
+        - `google-cloud-cli-app-hosting`: Required to deploy to App Hosting.
+    - **Potential Future Components**:
+        - `google-cloud-cli-ai`: This will likely be necessary if the CI/CD workflow needs to interact with Vertex AI, for instance, to manage Vector Search indexes.
+        - **Standard Components**: Services like Firestore and Cloud Storage are typically included in the standard `gcloud` installation. However, if a `gcloud firestore` or `gcloud storage` command fails unexpectedly in the workflow, checking for a missing component should be a primary troubleshooting step.
