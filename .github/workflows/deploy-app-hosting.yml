@@ -22,8 +22,10 @@ jobs:
           workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
           service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
 
-      - name: 'Install gcloud CLI'
+      - name: 'Install gcloud CLI and beta component'
         uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+          install_components: 'beta'
 
       - name: 'Deploy to App Hosting with gcloud'
         run: gcloud beta app hosting backends deploy forgeai-backend --location=europe-west4

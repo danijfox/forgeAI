@@ -3,6 +3,10 @@
     "firebase": {
       "command": "npx",
       "args": ["-y", "firebase-tools@latest", "experimental:mcp"]
-    }
+    },
+    "cloud-run": {
+    "command": "npx",
+    "args": ["-y", "@google-cloud/cloud-run-mcp"]
+  }
   }
 }
