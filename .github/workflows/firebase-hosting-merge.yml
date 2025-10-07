@@ -17,4 +17,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_AI_NURTURE_NEXUS }}'
           channelId: live
-          projectId: ai-nurture-nexus
+          projectId: studio-774665260-80d2e
