@@ -24,8 +24,7 @@ jobs:
 
       - id: 'deploy'
         name: 'Deploy to App Hosting'
-        uses: 'google-github-actions/deploy-app-hosting@v2.0.0'
+        uses: 'google-github-actions/deploy-app-hosting@v2'
         with:
-          project_id: '${{ secrets.PROJECT_ID }}'
           site_id: 'forgeai'
           location: 'europe-west4'
