@@ -26,4 +26,4 @@ jobs:
         run: npm install -g firebase-tools
 
       - name: 'Deploy to Firebase App Hosting'
-        run: firebase apphosting:backends:deploy forgeai-backend
+        run: firebase apphosting:rollouts:create forgeai-backend --git_branch=${{ github.ref_name }} --git_commit=${{ github.sha }}
