@@ -19,7 +19,7 @@ jobs:
           service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
 
       - name: 'Deploy to App Hosting'
-        uses: 'google-github-actions/deploy-app-hosting@v0'
+        uses: 'google-github-actions/deploy-app-hosting@v0.2.1'
         with:
           project_id: 'studio-774665260-80d2e'
-          location: 'us-central1'
+          location: 'europe-west4'
