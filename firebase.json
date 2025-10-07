@@ -1,14 +1,22 @@
 {
-  "hosting": {
-    "source": ".",
-    "frameworksBackend": {
-      "region": "us-central1"
-    }
-  },
-  "firestore": {
-    "rules": "firestore.rules"
+  "functions": {
+    "source": "functions"
   },
   "storage": {
     "rules": "storage.rules"
+  },
+  "emulators": {
+    "functions": {
+      "host": "0.0.0.0"
+    },
+    "storage": {
+      "host": "0.0.0.0"
+    },
+    "ui": {
+      "host": "0.0.0.0"
+    },
+    "hub": {
+      "host": "0.0.0.0"
+    }
   }
 }
