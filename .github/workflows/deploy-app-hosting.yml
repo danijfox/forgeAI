@@ -9,5 +9,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: 'actions/checkout@v4'
-      - name: A simple step to see if workflow runs
-        run: echo "The basic workflow ran successfully."
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
+          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
+
+      - name: Check Auth Action
+        run: echo "Auth action was successfully resolved."
