@@ -32,6 +32,7 @@ export const onDocumentCreated = onDocumentCreated(
   {
     document: "collections/{collectionId}/documents/{documentId}",
     timeoutSeconds: 540,
+    region: "us-east1",
   },
   async (event) => {
     const snapshot = event.data;
