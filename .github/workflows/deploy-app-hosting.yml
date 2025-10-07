@@ -1,4 +1,4 @@
-name: Deploy to Firebase App Hosting
+name: Deploy to App Hosting
 
 on:
   push:
@@ -8,21 +8,18 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
         with:
-          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
-          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
+          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
 
-      - name: Deploy to App Hosting
-        uses: google-github-actions/deploy-apphosting@v0
+      - name: 'Deploy to App Hosting'
+        uses: 'google-github-actions/deploy-app-hosting@v0'
         with:
-          region: europe-west4
-          project_id: studio-774665260-80d2e
+          project_id: 'studio-774665260-80d2e'
+          location: 'us-central1'
