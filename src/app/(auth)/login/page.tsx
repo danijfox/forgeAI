@@ -1,56 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import {
-  signInWithRedirect,
-  GoogleAuthProvider,
-  getRedirectResult,
-} from "firebase/auth";
+import { useState } from "react";
+import { signInWithRedirect, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { Icons } from "@/components/icons";
 
 export default function LoginPage() {
-  const router = useRouter();
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
-  // Function to initiate the sign-in process
+  // This function now ONLY starts the sign-in process.
+  // The AuthProvider is responsible for handling the result.
   const handleGoogleSignIn = () => {
     setIsLoading(true);
     const provider = new GoogleAuthProvider();
+    // No 'await' is needed here, as the user is redirected away.
     signInWithRedirect(auth, provider);
   };
-
-  // Effect to handle the redirect result
-  useEffect(() => {
-    const handleRedirectResult = async () => {
-      try {
-        const result = await getRedirectResult(auth);
-        if (result) {
-          // User successfully signed in.
-          toast({
-            title: "Success",
-            description: "You have successfully signed in.",
-          });
-          router.push("/dashboard");
-        }
-      } catch (error) {
-        console.error("Error signing in with Google: ", error);
-        toast({
-          variant: "destructive",
-          title: "Authentication Failed",
-          description: "Could not sign in with Google. Please try again.",
-        });
-        setIsLoading(false); // Stop loading indicator on error
-      }
-    };
-
-    handleRedirectResult();
-  }, [router, toast]);
 
   return (
     <div className="w-full max-w-sm text-center">
