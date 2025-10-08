@@ -1,9 +1,8 @@
 "use client";
 
 import React, { createContext, useEffect, useState } from "react";
-import { onAuthStateChanged, User } from "firebase/auth";
+import { onAuthStateChanged, User, getRedirectResult } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import { Loader2 } from "lucide-react";
 
 interface AuthContextType {
   user: User | null;
@@ -17,7 +16,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("DEBUG: AuthProvider mounting. Setting up onAuthStateChanged listener.");
+    // This function is the key. It processes the redirect result from Google.
+    const processRedirect = async () => {
+      try {
+        // This will be null if the user just visited the page normally.
+        // It will contain the user credential if they just came back from the redirect.
+        const result = await getRedirectResult(auth);
+        if (result) {
+          console.log("DEBUG: getRedirectResult successful!", { user: result.user });
+        }
+      } catch (error) {
+        console.error("DEBUG: Error processing redirect result.", error);
+      }
+    };
+
+    // Process the redirect result first.
+    processRedirect();
+
+    // Then, set up the onAuthStateChanged listener. This will fire after
+    // getRedirectResult completes, and also for any subsequent auth changes.
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       console.log(`DEBUG: onAuthStateChanged event fired. User is: ${user ? user.displayName : 'null'}`);
       setUser(user);
@@ -27,8 +44,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
-
-  console.log(`DEBUG: AuthProvider rendering. State is: loading=${loading}, user=${user ? user.displayName : 'null'}`);
 
   const value = { user, loading };
 
