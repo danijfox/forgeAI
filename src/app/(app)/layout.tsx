@@ -1,41 +1,41 @@
+"use client";
+
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import {
-  Home,
-  Folder,
-  Database,
-  Menu,
-} from "lucide-react";
-import {
-  getAuth,
-} from "firebase/auth";
-import { app } from "@/lib/firebase"; // HACK: This is required for getAuth to work on the server
+import { Home, Folder, Database, Menu, Loader2 } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
 import { UserNav } from "@/components/user-nav";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useEffect } from "react";
 
-// HACK: This is required for getAuth to work on the server
-const auth = getAuth(app);
+export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
 
-export default async function AppLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const user = auth.currentUser;
+  useEffect(() => {
+    console.log("AppLayout: useEffect fired", { loading, user });
+    if (!loading && !user) {
+      console.log("AppLayout: Redirecting to /login");
+      redirect("/login");
+    }
+  }, [user, loading]);
+  
+  console.log("AppLayout: Rendering...", { loading, user });
 
-  // Since we can't do server-side redirects with Firebase Auth in this setup,
-  // we rely on the client-side redirect in AuthProvider and root page.
-  // This server-side check is more of a fallback.
+  if (loading) {
+    console.log("AppLayout: Showing loading screen because auth state is pending.");
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   if (!user) {
-    // This might not work as expected with Firebase client-side persistence.
-    // The client-side checks are more reliable.
-    // redirect("/login");
+    console.log("AppLayout: Returning null because user is not authenticated and redirect is imminent.");
+    // Return null or a loading indicator while the redirect is happening
+    return null;
   }
 
   const navItems = [
