@@ -17,20 +17,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("AuthProvider: Setting up onAuthStateChanged listener...");
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log("AuthProvider: onAuthStateChanged fired!", { user });
       setUser(user);
       setLoading(false);
     });
 
-    return () => {
-      console.log("AuthProvider: Cleaning up onAuthStateChanged listener.");
-      unsubscribe();
-    }
+    return () => unsubscribe();
   }, []);
 
-  console.log("AuthProvider: Rendering...", { loading, user });
   const value = { user, loading };
 
   return (
