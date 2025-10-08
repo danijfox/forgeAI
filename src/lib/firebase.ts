@@ -17,6 +17,7 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+// Initialize the Firebase App
 let app: FirebaseApp;
 if (getApps().length === 0) {
   app = initializeApp(firebaseConfig);
@@ -24,9 +25,7 @@ if (getApps().length === 0) {
   app = getApp();
 }
 
-// Correctly initialize Auth with IndexedDB persistence to survive cross-domain redirects.
-// NOTE: We are using initializeAuth here, which is the correct way to set persistence.
-// We are NOT using getAuth(app) in this case.
+// Initialize Auth with IndexedDB persistence for robust cross-domain redirect handling
 const auth: Auth = initializeAuth(app, {
   persistence: indexedDBLocalPersistence
 });
