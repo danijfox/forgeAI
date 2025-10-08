@@ -13,7 +13,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   const router = useRouter();
 
+  console.log(`DEBUG: AppLayout rendering. State is: loading=${loading}, user=${user ? user.displayName : 'null'}`);
+
   if (loading) {
+    console.log("DEBUG: AppLayout showing Loader because auth state is loading.");
     return (
       <div className="flex h-screen w-screen items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -22,9 +25,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   }
 
   if (!user) {
+    console.log("DEBUG: AppLayout redirecting to /login because user is not authenticated.");
     router.replace("/login");
-    return null;
+    return null; // Return null to prevent rendering children during redirect
   }
+
+  console.log("DEBUG: AppLayout rendering children because user is authenticated.");
 
   const navItems = [
     { href: "/dashboard", icon: Home, label: "Dashboard" },
