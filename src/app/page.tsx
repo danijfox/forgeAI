@@ -2,6 +2,8 @@
 
 import { Loader2 } from "lucide-react";
 
+// [FORCE UPDATE] This comment is added to ensure Git detects a change.
+// The reference to AuthHandler has been removed to fix the build error.
 export default function Home() {
   // This page now only shows a loading indicator.
   // The redirection logic is handled by the root layout or the protected app layout.
