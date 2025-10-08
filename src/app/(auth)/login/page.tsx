@@ -1,21 +1,47 @@
 "use client";
 
 import { useState } from "react";
-import { signInWithRedirect, GoogleAuthProvider } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { Icons } from "@/components/icons";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
-  // This function now only STARTS the redirect process.
-  // The AuthProvider is solely responsible for handling the result when the user returns.
-  const handleGoogleSignIn = () => {
-    setIsLoading(true); // Provide immediate feedback to the user.
+  // Re-implementing signInWithPopup as the definitive strategy for this environment.
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
     const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider);
+    try {
+      const result = await signInWithPopup(auth, provider);
+      
+      toast({
+        title: "Success",
+        description: `Welcome, ${result.user.displayName}!`,
+      });
+      
+      // On successful login, redirect to the main dashboard.
+      router.push("/dashboard");
+
+    } catch (error: any) {
+      // Provide constant feedback as per agent.md
+      if (error.code !== 'auth/popup-closed-by-user') {
+        console.error("Error signing in with Google: ", error);
+        toast({
+          variant: "destructive",
+          title: "Authentication Failed",
+          description: "Could not sign in with Google. Please try again.",
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
