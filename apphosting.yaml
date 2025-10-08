@@ -15,7 +15,7 @@ env:
     value: AIzaSyB6RymaYwxixfGIXvLarNzDeF5NI7XncYc
     availability: [BUILD, RUNTIME]
   - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
-    value: 9000-firebase-studio-1759731004018.cluster-lu4mup47g5gm4rtyvhzpwbfadi.cloudworkstations.dev
+    value: studio-774665260-80d2e.firebaseapp.com
     availability: [BUILD, RUNTIME]
   - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
     value: studio-774665260-80d2e
