@@ -12,12 +12,6 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// --- DEBUGGING STEP ---
-// This will print the exact configuration being used by your app in the browser console.
-console.log("Firebase Config being used:", firebaseConfig);
-// --- END DEBUGGING STEP ---
-
-
 let app: FirebaseApp;
 let auth: Auth;
 let db: Firestore;
