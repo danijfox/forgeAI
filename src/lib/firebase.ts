@@ -1,10 +1,5 @@
 import { initializeApp, getApp, getApps, FirebaseApp } from "firebase/app";
-import { 
-  getAuth, 
-  Auth, 
-  initializeAuth, 
-  indexedDBLocalPersistence 
-} from "firebase/auth";
+import { getAuth, Auth } from "firebase/auth";
 import { getFirestore, Firestore } from "firebase/firestore";
 import { getStorage, FirebaseStorage } from "firebase/storage";
 
@@ -17,7 +12,6 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Initialize the Firebase App
 let app: FirebaseApp;
 if (getApps().length === 0) {
   app = initializeApp(firebaseConfig);
@@ -25,10 +19,9 @@ if (getApps().length === 0) {
   app = getApp();
 }
 
-// Initialize Auth with IndexedDB persistence for robust cross-domain redirect handling
-const auth: Auth = initializeAuth(app, {
-  persistence: indexedDBLocalPersistence
-});
+// Revert to the standard, correct way of getting the Auth instance.
+// This will fix the auth/argument-error.
+const auth: Auth = getAuth(app);
 
 const db: Firestore = getFirestore(app);
 const storage: FirebaseStorage = getStorage(app);
