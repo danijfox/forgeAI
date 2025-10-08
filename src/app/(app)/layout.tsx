@@ -1,6 +1,6 @@
 "use client";
 
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Home, Folder, Database, Menu, Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
@@ -8,23 +8,12 @@ import { UserNav } from "@/components/user-nav";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useEffect } from "react";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
-
-  useEffect(() => {
-    console.log("AppLayout: useEffect fired", { loading, user });
-    if (!loading && !user) {
-      console.log("AppLayout: Redirecting to /login");
-      redirect("/login");
-    }
-  }, [user, loading]);
-  
-  console.log("AppLayout: Rendering...", { loading, user });
+  const router = useRouter();
 
   if (loading) {
-    console.log("AppLayout: Showing loading screen because auth state is pending.");
     return (
       <div className="flex h-screen w-screen items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -33,8 +22,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   }
 
   if (!user) {
-    console.log("AppLayout: Returning null because user is not authenticated and redirect is imminent.");
-    // Return null or a loading indicator while the redirect is happening
+    router.replace("/login");
     return null;
   }
 
