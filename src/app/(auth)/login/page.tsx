@@ -1,8 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  signInWithRedirect,
+  GoogleAuthProvider,
+  getRedirectResult,
+} from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -14,27 +18,39 @@ export default function LoginPage() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleGoogleSignIn = async () => {
+  // Function to initiate the sign-in process
+  const handleGoogleSignIn = () => {
     setIsLoading(true);
     const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-      toast({
-        title: "Success",
-        description: "You have successfully signed in.",
-      });
-      router.push("/dashboard");
-    } catch (error) {
-      console.error("Error signing in with Google: ", error);
-      toast({
-        variant: "destructive",
-        title: "Authentication Failed",
-        description: "Could not sign in with Google. Please try again.",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    signInWithRedirect(auth, provider);
   };
+
+  // Effect to handle the redirect result
+  useEffect(() => {
+    const handleRedirectResult = async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result) {
+          // User successfully signed in.
+          toast({
+            title: "Success",
+            description: "You have successfully signed in.",
+          });
+          router.push("/dashboard");
+        }
+      } catch (error) {
+        console.error("Error signing in with Google: ", error);
+        toast({
+          variant: "destructive",
+          title: "Authentication Failed",
+          description: "Could not sign in with Google. Please try again.",
+        });
+        setIsLoading(false); // Stop loading indicator on error
+      }
+    };
+
+    handleRedirectResult();
+  }, [router, toast]);
 
   return (
     <div className="w-full max-w-sm text-center">
