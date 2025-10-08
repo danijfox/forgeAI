@@ -16,33 +16,47 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // This function is the key. It processes the redirect result from Google.
-    const processRedirect = async () => {
+    // This function runs once when the component mounts.
+    const initializeAuth = async () => {
       try {
-        // This will be null if the user just visited the page normally.
-        // It will contain the user credential if they just came back from the redirect.
+        // First, check if the user is coming back from a redirect sign-in.
+        // This promise resolves with the user credential, or null if not a redirect.
         const result = await getRedirectResult(auth);
         if (result) {
-          console.log("DEBUG: getRedirectResult successful!", { user: result.user });
+          // A user has successfully signed in via redirect.
+          // The onAuthStateChanged listener below will now handle setting the user state.
+          console.log("DEBUG: getRedirectResult successful!", { user: result.user.displayName });
         }
+
+        // After processing the redirect, set up the listener for ongoing auth state changes.
+        // This will also fire immediately with the current state (either from the redirect or from a saved session).
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          console.log(`DEBUG: onAuthStateChanged event fired. User is: ${user ? user.displayName : 'null'}`);
+          setUser(user);
+          setLoading(false);
+        });
+        
+        // Return the cleanup function for the listener.
+        return unsubscribe;
+
       } catch (error) {
-        console.error("DEBUG: Error processing redirect result.", error);
+        // If anything fails during initialization, log the error and stop loading.
+        console.error("DEBUG: Error during auth initialization.", error);
+        setLoading(false);
+        return () => {}; // Return an empty cleanup function on error.
       }
     };
 
-    // Process the redirect result first.
-    processRedirect();
+    let unsubscribePromise = initializeAuth();
 
-    // Then, set up the onAuthStateChanged listener. This will fire after
-    // getRedirectResult completes, and also for any subsequent auth changes.
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log(`DEBUG: onAuthStateChanged event fired. User is: ${user ? user.displayName : 'null'}`);
-      setUser(user);
-      setLoading(false);
-    });
-
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
+    // The actual cleanup function for useEffect will be the resolved value of the promise.
+    return () => {
+      unsubscribePromise.then(unsubscribe => {
+        if (unsubscribe) {
+          unsubscribe();
+        }
+      });
+    };
   }, []);
 
   const value = { user, loading };
